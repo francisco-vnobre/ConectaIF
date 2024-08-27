@@ -1,13 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { UsuariosService } from "./usuarios.service";
+import { CreateUsuarioDto } from "./dtos/create-usuario.dto";
+import { PorIdDto } from "./dtos/por-id.dto";
 
-@Controller('usuarios')
+@ApiTags("usuarios")
+@Controller("usuarios")
 export class UsuariosController {
-    @Get()
-  async buscaUsuarios() {
-      const user = 'teste';
-      return {
-        user,
-        message: 'Administrador cadastrado com sucesso',
-      };
-    }
+  constructor(private readonly usuariosService: UsuariosService) {}
+  @Post("novo")
+  create(@Body() dados: CreateUsuarioDto) {
+    return this.usuariosService.create(dados);
+  }
+
+  @Post("/busca-um")
+  findById(@Body() dados: PorIdDto) {
+    return this.usuariosService.buscaPorId(dados.id);
+  }
 }
