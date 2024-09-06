@@ -26,7 +26,7 @@ export class UsuariosService {
   }
   async buscaPorId(id: number) {
     const usuario = await this.usuariosRepository.findOne({
-      where: { id: Number(id) },
+      where: { id: id },
     });
 
     return usuario;
